@@ -37,10 +37,10 @@ class User extends Authenticatable
     }
     public function followers()
     {
-        return $this->belongsToMany(User::class, 'user_id', 'follow_id', 'user_follow')->withTimestamps();
+        return $this->belongsToMany(User::class, 'user_follow', 'follow_id', 'user_id')->withTimestamps();
     }
     
-    public function follow()
+    public function follow($userId)
     {
         $exist = $this->is_following($userId);
         
@@ -54,9 +54,9 @@ class User extends Authenticatable
         }
         
     }
-    public function unfollow()
+    public function unfollow($userId)
     {
-        $exists = $thisa->is_following($useId);
+        $exists = $this->is_following($useId);
         
         $its_me =$this->id == $userId;
         
@@ -67,8 +67,14 @@ class User extends Authenticatable
             return false;
         }
     }
-    public function is_following()
+    public function is_following($userId)
     {
-        return $this->followings()->where('follow_id', 'user_id')->exists();
+        return $this->followings()->where('follow_id', $userId)->exists();
+    }
+    public function feed_microposts()
+    {
+        $follow_user_ids = $this->followings()->pluck('users.id')->toArray();
+        $follow_user_ids[] = $this->id;
+        return Micropost::whereIn('user_id', $follow_user_ids);
     }
 }

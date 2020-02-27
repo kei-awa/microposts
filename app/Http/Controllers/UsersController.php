@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\User;
-use App\micropost;
+use App\Micropost;
 
 class UsersController extends Controller
 {
@@ -34,7 +34,7 @@ class UsersController extends Controller
     public function followings($id)
     {
         $user = User::find($id);
-        $followings = $user->followings()->pagination(10);
+        $followings = $user->followings()->paginate(10);
         
         $data = [
             'user' => $user,
@@ -48,7 +48,7 @@ class UsersController extends Controller
     public function followers($id)
     {
         $user = User::find($id);
-        $followers = $this->followers()->pagination(10);
+        $followers = $user->followers()->paginate(10);
         
         $data = [
             'user' => $user,
