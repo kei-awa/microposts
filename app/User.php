@@ -85,7 +85,6 @@ class User extends Authenticatable
     public function favorite($micropostId)
     {
         $exist = $this->is_favorite($micropostId);
-        // 相手の呟きか
         
         
         if ($exist){
@@ -98,7 +97,6 @@ class User extends Authenticatable
     public function unfavorite($micropostId)
     {
         $exist = $this->is_favorite($micropostId);
-        // 相手の呟きか
         
         
         if ($exist)
