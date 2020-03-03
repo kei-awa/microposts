@@ -86,9 +86,9 @@ class User extends Authenticatable
     {
         $exist = $this->is_favorite($micropostId);
         // 相手の呟きか
-        $its_yours = $this->id == $micropostId;
         
-        if ($exist || $its_yours){
+        
+        if ($exist){
             return false;
         } else {
             $this->favor()->attach($micropostId);
@@ -99,9 +99,9 @@ class User extends Authenticatable
     {
         $exist = $this->is_favorite($micropostId);
         // 相手の呟きか
-        $its_yours = $this->id == $micropostId;
         
-        if ($exist && !$its_yours)
+        
+        if ($exist)
         {
             $this->favor()->detach($micropostId);
             return true;
